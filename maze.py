@@ -4,15 +4,8 @@ from skimage.filters import threshold_isodata
 from skimage.color import rgb2gray, rgb2hsv
 from matplotlib import pyplot as plt
 from skimage.measure import label, regionprops
-from skimage.morphology import binary_dilation, binary_erosion
+from skimage.morphology import binary_dilation, binary_erosion, disk
 import numpy as np
-
-
-def unit_circle(r):
-    d = 2 * r + 1
-    rx, ry = d/2, d/2
-    x, y = np.indices((d, d))
-    return (np.abs(np.hypot(rx - x, ry - y)-r) < 0.5).astype(int)
 
 
 img = io.imread('maze.jpg')
@@ -67,7 +60,7 @@ margin = int(0.55 * diam)
 
 # Dilate markers remainings
 #img_bin_exp = binary_dilation(img_bin)
-img_bin_exp = binary_erosion(img_bin, unit_circle(margin))
+img_bin_exp = binary_erosion(img_bin, disk(margin))
 
 plt.figure()
 plt.imshow(img_bin_exp, cmap='gray')
