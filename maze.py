@@ -4,7 +4,7 @@ from skimage.filters import threshold_isodata
 from skimage.color import rgb2gray, rgb2hsv
 from matplotlib import pyplot as plt
 from skimage.measure import label, regionprops
-from skimage.morphology import diameter_closing, diameter_opening, binary_dilation, binary_erosion, binary_closing, binary_opening
+from skimage.morphology import binary_dilation, binary_erosion
 import numpy as np
 
 
@@ -52,8 +52,10 @@ plt.imshow(img_bin, cmap='gray')
 plt.title('Binarised')
 
 # Remove marker dots
-img_bin = np.clip(img_bin + binary_dilation(red_dots_bin,
-                                            np.ones((max_marker_diam * 2, max_marker_diam * 2))), 0, 1)
+dilated = binary_dilation(red_dots_bin,
+                          np.ones((max_marker_diam * 2,
+                                   max_marker_diam * 2)))
+img_bin = np.clip(img_bin + dilated, 0, 1)
 
 plt.figure()
 plt.imshow(img_bin, cmap='gray')
