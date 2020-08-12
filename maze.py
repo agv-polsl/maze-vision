@@ -57,13 +57,9 @@ plt.title('Binarised with markers removed')
 # Expand walls
 diam = np.linalg.norm(np.array(markers[0]) - np.array(markers[1]))
 margin = int(0.55 * diam)
-
-# Dilate markers remainings
-#img_bin_exp = binary_dilation(img_bin)
 img_bin_exp = binary_erosion(img_bin, disk(margin))
 
 plt.figure()
 plt.imshow(img_bin_exp, cmap='gray')
-# diameter_opening
 
 plt.show()
